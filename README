@@ -1,0 +1,25 @@
+Compilation: make
+nb: les slice2** sont ici relancés a chaque fois, pour annuler cela il faut supprimer la cible sliceToAll de la cible all
+
+Exécution serveur: make runServer
+Exécution client java: make runClient
+Exécution client php: make runPhpClient
+Exécution client C#: make runCsClient
+
+Interface Slice:
+J'ai choisi de faire une structure pour structurer l'objet son (morceau de musique).
+La classe songDB utilise cette même structure pour le stockage est la manipulation des sons (via le code cpp généré par Ice).
+songSeq a été défini comme une séquence de song, ce qui permet aux fonctions de recherche de renvoyer plusieurs résultats au client.
+Les méthodes proposées sont l'ajout, la suppression et la recherche (par titre ou par artiste) de sons dans la base.
+
+Server Cpp:
+L'objet ConcreteServer implémente l'interface générée par Ice et stocke une songDB.
+Il agît sur cette songDB en fonction des requêtes client et affiche lui même les demandes qu'il a recu.
+
+songDB:
+La classe représente la base de données musicale.
+Les morceaux sont stockés dans un vector en utilisant le type song défini dans server.ice.
+La recherche est implémentée de facon a pouvoir ajouter des champs si ceux-ci venaient à être créés dans la structure song.
+
+Clients:
+Les clients proposent un simple menu à l'utilisateur pour actionner le serveur
