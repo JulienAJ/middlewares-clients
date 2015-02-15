@@ -1,16 +1,11 @@
-CPP=g++
 JAVAC=javac
 JAVA=java
-CS=gmcs
-EXCS=mono
 PHP=php
 
-CPPFLAGS= -I. -lIce -lIceUtil -pthread
 JAVACLASSPATH=.:/usr/share/java/Ice.jar
 PHPFLAGS= -f
-CSREQUIRED=/usr/lib/mono/Ice/Ice.dll
 
-all: sliceToAll Client.class Server CsClient.exe
+all: sliceToAll Client.class
 
 # JAVA CLIENT
 
@@ -33,32 +28,9 @@ CsClient.exe: client.cs
 runCsClient:
 	$(EXCS) CsClient.exe
 
-# SERVER
-
-Server: main.o server.o songDB.o
-	$(CPP) $^ -o $@ $(CPPFLAGS)
-
-main.o: main.cpp
-	$(CPP) -c $< -o $@ $(CPPFLAGS)
-
-server.o: server.cpp server.h
-	$(CPP) -c $< -o $@ $(CPPFLAGS)
-
-songDB.o: songDB.cpp songDB.hpp
-	$(CPP) -c $< -o $@ $(CPPFLAGS)
-
-runServer:
-	./Server
-
 # SLICE TO CODE
 
-sliceToAll: sliceToCpp sliceToCs sliceToJava sliceToPhp
-
-sliceToCpp: server.ice
-	slice2cpp $<
-
-sliceToCs: server.ice
-	slice2cs $<
+sliceToAll:sliceToJava sliceToPhp
 
 sliceToJava: server.ice
 	slice2java $<
@@ -66,14 +38,14 @@ sliceToJava: server.ice
 sliceToPhp: server.ice
 	slice2php $<
 
-cleanIce: server.h server.cpp server.cs server.php
+cleanIce: server.php
 	rm -f $^
 	rm -fr Player
 
 # CLEAN
 
 clean:
-	rm -f *.o
+	rm -f *.class
 
 mrproper: clean cleanIce
-	rm -f Server Client.class CsClient.exe
+	rm -f CsClient.exe

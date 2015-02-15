@@ -16,5 +16,10 @@ module Player
 		songSeq findByTitle(string name);
 		songSeq findByArtist(string artist);
 		songSeq list();
+
+		string getId();
+		string start(string id, string path);
+		void play(string id);
+		void stop(string id);
 	};
 };
