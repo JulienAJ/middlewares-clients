@@ -15,6 +15,7 @@ public class Client
 		{
 
 			ic = Ice.Util.initialize(args);
+			//Ice.ObjectPrx base = ic.stringToProxy("Server:default -h datdroplet.ovh -p 10000");
 			Ice.ObjectPrx base = ic.stringToProxy("Server:default -p 10000");
 			Player.ServerPrx server = Player.ServerPrxHelper.checkedCast(base);
 			if (server == null)
@@ -26,7 +27,7 @@ public class Client
 			while(true)
 			{
 				choice = 0;
-				while(choice < 1 || choice > 6)
+				while(choice < 1 || choice > 7)
 				{
 					System.out.println("Quelle action voulez-vous executer ?");
 					System.out.println("1 - Ajouter un morceau");
@@ -34,7 +35,8 @@ public class Client
 					System.out.println("3 - Rechercher par titre");
 					System.out.println("4 - Rechercher par artiste");
 					System.out.println("5 - Lister les morceaux");
-					System.out.println("6 - Quitter");
+					System.out.println("6 - Lancer un streaming");
+					System.out.println("7 - Quitter");
 					choice = Integer.parseInt(br.readLine());
 				}
 
@@ -98,6 +100,12 @@ public class Client
 					{
 						System.out.println(results[i].name + " par " + results[i].artist + " : " + results[i].path);
 					}
+				}
+				else if(choice == 6)
+				{
+					String myId = server.start("go.mp3");
+					server.play(myId);
+					System.out.println("OUI : " + myId);
 				}
 				else
 					break;
