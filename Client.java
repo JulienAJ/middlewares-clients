@@ -15,8 +15,8 @@ public class Client
 		{
 
 			ic = Ice.Util.initialize(args);
-			//Ice.ObjectPrx base = ic.stringToProxy("Server:default -h datdroplet.ovh -p 10000");
-			Ice.ObjectPrx base = ic.stringToProxy("Server:default -p 10000");
+			Ice.ObjectPrx base = ic.stringToProxy("Server:default -h datdroplet.ovh -p 10000");
+			//Ice.ObjectPrx base = ic.stringToProxy("Server:default -p 10000");
 			Player.ServerPrx server = Player.ServerPrxHelper.checkedCast(base);
 			if (server == null)
 				throw new Error("Invalid proxy");
